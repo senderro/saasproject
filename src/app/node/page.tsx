@@ -2,72 +2,54 @@
 
 import { useState, useEffect } from "react";
 import { getClientDeployments, createDeployment } from "@/proxy";
-import { Deployment } from "../../../lib/interface";
+import type { deployments } from "@prisma/client";
 
 export default function NodePage() {
-  const [deployments, setDeployments] = useState<Deployment[]>([]);
-  const [selectedDeployment, setSelectedDeployment] = useState<Deployment | null>(null);
+  const [deployments, setDeployments] = useState<deployments[] | []>([]);
+  const [selectedDeployment, setSelectedDeployment] = useState<deployments | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [deploying, setDeploying] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    async function fetchDeployments() {
-      try {
-        const fetchedDeployments = await getClientDeployments();
-
-        const formattedDeployments = fetchedDeployments.map((deployment: Deployment) => ({
-          id: deployment.id,
-          service_name: deployment.service_name ?? `Deployment ${deployment.id}`,
-          client_id: deployment.client_id ?? "N/A",
-          image_tag: deployment.image_tag ?? "latest",
-          status: deployment.status ?? "Unknown",
-          rpc_endpoint: deployment.rpc_endpoint ?? "N/A",
-          ws_endpoint: deployment.ws_endpoint ?? "N/A",
-          access_token: deployment.access_token ?? "N/A",
-          created_at: deployment.created_at ? new Date(deployment.created_at) : null, // Mantém como Date
-        }));
-
-        setDeployments(formattedDeployments);
-      } catch (err) {
-        console.error("Erro ao buscar deployments:", err);
-        setError("Erro ao carregar os deployments.");
-      } finally {
-        setLoading(false);
-      }
-    }
-
+    setIsClient(true);
     fetchDeployments();
   }, []);
+
+  async function fetchDeployments() {
+    try {
+      const fetchedDeployments = await getClientDeployments();
+      
+      const formattedDeployments = fetchedDeployments.map((deployment) => ({
+        ...deployment,
+        created_at: deployment.created_at ? new Date(deployment.created_at) : null,
+      }));
+
+      setDeployments(formattedDeployments);
+    } catch (err) {
+      console.error("Erro ao buscar deployments:", err);
+      setError("Erro ao carregar os deployments.");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   async function handleDeployNewNode() {
     try {
       setDeploying(true);
-
-      // Faz a chamada para criar o deployment
-      const newDeployment = await createDeployment();
-
-      // Formata o deployment para corresponder à interface Deployment
-      const formattedDeployment: Deployment = {
-        id: newDeployment.id,
-        service_name: newDeployment.service_name ?? `Deployment ${newDeployment.id}`,
-        client_id: newDeployment.client_id ?? "Unknown",
-        image_tag: newDeployment.image_tag ?? "latest",
-        status: newDeployment.status ?? "Unknown",
-        rpc_endpoint: newDeployment.rpc_endpoint ?? "N/A",
-        ws_endpoint: newDeployment.ws_endpoint ?? "N/A",
-        access_token: newDeployment.access_token ?? "N/A",
-        created_at: newDeployment.created_at ? new Date(newDeployment.created_at) : null,
-      };
-
-      // Atualiza o estado adicionando o novo deployment
-      setDeployments((prevDeployments) => [...prevDeployments, formattedDeployment]);
+      await createDeployment();
+      await fetchDeployments();
     } catch (err) {
       console.error("Erro ao criar novo deployment:", err);
       setError("Erro ao criar novo deployment.");
     } finally {
       setDeploying(false);
     }
+  }
+
+  if (!isClient) {
+    return null;
   }
 
   if (loading) {
@@ -80,9 +62,7 @@ export default function NodePage() {
 
   return (
     <div className="min-h-screen bg-white text-gray-900 flex flex-col items-center">
-      {/* Main Content */}
       <main className="w-full max-w-6xl py-12 px-4 flex flex-col items-center">
-        {/* Botão para Deploy */}
         <div className="mb-8 w-full flex justify-center">
           <button
             onClick={handleDeployNewNode}
@@ -95,7 +75,6 @@ export default function NodePage() {
           </button>
         </div>
 
-        {/* Lista de Deployments */}
         <div className="w-full bg-gray-50 shadow-lg rounded-lg p-6">
           <h2 className="text-3xl font-bold text-gray-900 mb-6">Your Deployments</h2>
           {deployments.length === 0 ? (
@@ -112,9 +91,9 @@ export default function NodePage() {
                   }`}
                   onClick={() => setSelectedDeployment(deployment)}
                 >
-                  <h3 className="text-xl font-semibold">{deployment.service_name}</h3>
+                  <h3 className="text-xl font-semibold">{deployment.service_name ?? `Deployment ${deployment.id}`}</h3>
                   <p className={`text-sm ${deployment.status === "Active" ? "text-green-600" : "text-red-600"}`}>
-                    {deployment.status}
+                    {deployment.status ?? "Unknown"}
                   </p>
                 </div>
               ))}
@@ -122,54 +101,46 @@ export default function NodePage() {
           )}
         </div>
 
-        {/* Detalhes do Deployment Selecionado */}
         {selectedDeployment && (
           <div className="w-full mt-8 bg-gray-50 shadow-lg rounded-lg p-6">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">
-              Manage Deployment: {selectedDeployment.service_name}
+              Manage Deployment: {selectedDeployment.service_name ?? `Deployment ${selectedDeployment.id}`}
             </h2>
             <div className="space-y-6">
-              {/* Status */}
               <div>
                 <h3 className="text-xl font-semibold text-gray-700">Status:</h3>
-                <p
-                  className={`text-lg font-medium ${
-                    selectedDeployment.status === "Active" ? "text-green-600" : "text-red-600"
-                  }`}
-                >
-                  {selectedDeployment.status}
+                <p className={`text-lg font-medium ${
+                  selectedDeployment.status === "Active" ? "text-green-600" : "text-red-600"
+                }`}>
+                  {selectedDeployment.status ?? "Unknown"}
                 </p>
               </div>
 
-              {/* RPC Endpoint */}
               <div>
                 <h3 className="text-xl font-semibold text-gray-700">RPC Endpoint:</h3>
                 <p className="text-gray-600 bg-gray-100 rounded-md p-4 break-words">
-                  {selectedDeployment.rpc_endpoint}
+                  {selectedDeployment.rpc_endpoint ?? "N/A"}
                 </p>
               </div>
 
-              {/* WebSocket Endpoint */}
               <div>
                 <h3 className="text-xl font-semibold text-gray-700">WebSocket Endpoint:</h3>
                 <p className="text-gray-600 bg-gray-100 rounded-md p-4 break-words">
-                  {selectedDeployment.ws_endpoint}
+                  {selectedDeployment.ws_endpoint ?? "N/A"}
                 </p>
               </div>
 
-              {/* Access Token */}
               <div>
                 <h3 className="text-xl font-semibold text-gray-700">Access Token:</h3>
                 <p className="text-gray-600 bg-gray-100 rounded-md p-4 break-words">
-                  {selectedDeployment.access_token}
+                  {selectedDeployment.access_token ?? "N/A"}
                 </p>
               </div>
 
-              {/* Data de Criação */}
               <div>
                 <h3 className="text-xl font-semibold text-gray-700">Created At:</h3>
                 <p className="text-gray-600 bg-gray-100 rounded-md p-4 break-words">
-                  {selectedDeployment.created_at ? selectedDeployment.created_at.toDateString() : "N/A"}
+                  {selectedDeployment.created_at ? selectedDeployment.created_at.toLocaleDateString() : "N/A"}
                 </p>
               </div>
             </div>
