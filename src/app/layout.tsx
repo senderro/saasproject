@@ -1,26 +1,39 @@
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 
+import { cn } from "@/lib/utils";
+import { ThemeProvider } from "./_providers/ThemeProvider";
 import Navbar from "./_components/Navbar";
 import Footer from "./_components/Footer";
 
+
 export const metadata = {
-  title: "XRPL Nodes SaaS",
-  description: "Run XRP nodes in. One click. We provide scalable rippled nodes on cloud.",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  title: "XRPlatform - Deploy XRP Nodes in One Click",
+  description: "Enterprise-grade XRP nodes deployment platform. Scale with confidence.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body className="flex flex-col min-h-screen">
-          <Navbar />
-          <main className="flex-grow">{children}</main>
-          <Footer />
+      <html lang="en" suppressHydrationWarning>
+        <body className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          "selection:bg-primary/10 selection:text-primary",
+        )}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <div className="relative flex min-h-screen flex-col">
+              <Navbar />
+              <div className="flex-1">{children}</div>
+              <Footer />
+            </div>
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
-
   );
 }
