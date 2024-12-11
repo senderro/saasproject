@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 import { Eye, EyeOff, Copy, CheckCircle2 } from "lucide-react";
 import { DeployCard } from "../_components/DeployCard";
+import { formatDistanceToNow } from 'date-fns';
 
 interface DeploymentCardProps {
   deployment: deployments;
@@ -149,16 +150,22 @@ const DeploymentCard = ({
       <CardTitle className="text-lg">
         {deployment.service_name ?? `Deployment ${deployment.id}`}
       </CardTitle>
+      {deployment.created_at && (
+        <p className="text-sm text-muted-foreground">
+          Created {formatDistanceToNow(new Date(deployment.created_at))} ago
+        </p>
+      )}
     </CardHeader>
     <CardContent className="p-0 mt-2">
       <Badge
-        variant={deployment.status === "Active" ? "default" : "destructive"}
+        variant={deployment.status === "RUNNING" ? "default" : "destructive"}
       >
         {deployment.status ?? "Unknown"}
       </Badge>
     </CardContent>
   </Card>
 );
+
 
 const DeploymentDetails = ({ deployment }: DeploymentDetailsProps) => {
   console.log(deployment);
@@ -187,7 +194,7 @@ const DeploymentDetails = ({ deployment }: DeploymentDetailsProps) => {
             <CardContent className="p-3">
               <span className="text-sm text-muted-foreground">
                 {deployment.created_at
-                  ? new Date(deployment.created_at).toLocaleDateString()
+                  ? new Date(deployment.created_at).toTimeString()
                   : "N/A"}
               </span>
             </CardContent>

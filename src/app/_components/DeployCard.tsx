@@ -98,7 +98,7 @@ export const DeployCard = ({ onDeployComplete, onDeployStart }: DeployCardProps)
   };
 
   return (
-    <Card className="w-full max-w-md bg-card/95 backdrop-blur border border-border">
+    <Card className="w-full max-w-md bg-card/95 backdrop-blur border-border">
       <CardHeader>
         <CardTitle className="text-xl font-semibold">
           {state === 'deploying' ? "Deploying Your Node" : 
@@ -110,7 +110,7 @@ export const DeployCard = ({ onDeployComplete, onDeployStart }: DeployCardProps)
       <CardContent className="space-y-6">
         {state === 'error' && (
           <div className="space-y-4">
-            <Alert variant="destructive">
+            <Alert variant="destructive" className="mb-4">
               <AlertCircle className="h-4 w-4" />
               <AlertTitle>Deployment Failed</AlertTitle>
               <AlertDescription>{error}</AlertDescription>
