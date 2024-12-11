@@ -21,7 +21,7 @@ export default function Navbar() {
     <nav className={`sticky top-0 z-50 transition-all duration-200 
       ${scrolled 
         ? 'bg-background/80 backdrop-blur-md border-b border-border' 
-        : 'bg-background/0'
+        : 'bg-background/0 border-border border-b'
       }`}>
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center py-4 md:py-6 px-4 md:px-6 space-y-4 md:space-y-0">
         {/* Logo */}
