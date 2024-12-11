@@ -2,52 +2,67 @@
 import Link from "next/link";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
+import { ThemeToggle } from "./ThemeToggler";
 
 export default function Navbar() {
   const [isClient, setIsClient] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <nav className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 transition-colors duration-200">
+    <nav className={`sticky top-0 z-50 transition-all duration-200 
+      ${scrolled 
+        ? 'bg-background/80 backdrop-blur-md border-b border-border' 
+        : 'bg-background/0'
+      }`}>
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center py-4 md:py-6 px-4 md:px-6 space-y-4 md:space-y-0">
         {/* Logo */}
-        <h1 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">
-          <Link href="/" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200">
+        <h1 className="text-xl md:text-2xl font-bold">
+          <Link href="/" className="text-foreground hover:text-primary transition-colors duration-200">
             XRPlataform
           </Link>
         </h1>
 
-        {/* Links */}
+        {/* Navigation Links */}
         <div className="flex items-center flex-wrap justify-center space-x-4 md:space-x-6">
           <Link 
             href="#features" 
-            className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
+            className="text-muted-foreground hover:text-foreground transition-colors duration-200"
           >
             Features
           </Link>
           <Link 
             href="#pricing" 
-            className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
+            className="text-muted-foreground hover:text-foreground transition-colors duration-200"
           >
             Pricing
           </Link>
           <Link 
             href="#contact" 
-            className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
+            className="text-muted-foreground hover:text-foreground transition-colors duration-200"
           >
             Contact
           </Link>
 
-          {/* Login/Logout */}
+          {/* Theme Toggle */}
+          <ThemeToggle />
+
+          {/* Auth Buttons */}
           {isClient && (
             <>
               <SignedOut>
                 <Link
                   href="/sign-in"
-                  className="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white px-4 py-2 rounded transition-colors duration-200"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-md 
+                    transition-all duration-200 hover:shadow-md"
                 >
                   Log In
                 </Link>
@@ -56,7 +71,7 @@ export default function Navbar() {
                 <UserButton />
                 <Link 
                   href="/node" 
-                  className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-200"
                 >
                   Nodes
                 </Link>

@@ -1,21 +1,95 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
+ 
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Core Colors */
+    --background: 0 0% 100%;
+    --foreground: 222 84% 4.9%;
+
+    /* Brand Colors */
+    --primary: 252 77% 56%;
+    --primary-hover: 252 77% 46%;
+    --primary-foreground: 210 40% 98%;
+
+    /* UI Colors */
+    --card: 0 0% 100%;
+    --card-foreground: 222 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 84% 4.9%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 252 77% 56%;
+
+    /* Status Colors */
+    --success: 142 72% 29%;
+    --warning: 32 96% 48%;
+    --error: 0 84% 60%;
+
+    /* Gradients */
+    --gradient-1: 252 77% 56%;
+    --gradient-2: 269 84% 44%;
+
+    /* Misc */
+    --radius: 0.75rem;
+  }
+ 
+  .dark {
+    /* Core Colors - Dark */
+    --background: 222 47% 4%;
+    --foreground: 210 40% 98%;
+
+    /* Brand Colors - Dark */
+    --primary: 252 77% 70%;
+    --primary-hover: 252 77% 60%;
+    --primary-foreground: 210 40% 98%;
+
+    /* UI Colors - Dark */
+    --card: 222 47% 6%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 47% 6%;
+    --popover-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 12%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 252 77% 70%;
+
+    /* Status Colors - Dark */
+    --success: 142 72% 34%;
+    --warning: 32 96% 54%;
+    --error: 0 84% 65%;
+
+    /* Gradients - Dark */
+    --gradient-1: 252 77% 70%;
+    --gradient-2: 269 84% 54%;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+/* Essential Utility Classes */
+@layer utilities {
+  .gradient-primary {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--gradient-1)) 0%,
+      hsl(var(--gradient-2)) 100%
+    );
+  }
+}
+
+/* Glass Effect */
+@layer components {
+  .glass {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .dark .glass {
+    background: rgba(0, 0, 0, 0.1);
+    border-color: rgba(255, 255, 255, 0.05);
+  }
 }

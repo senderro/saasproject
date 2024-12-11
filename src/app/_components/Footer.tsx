@@ -1,7 +1,17 @@
 export default function Footer() {
   return (
-    <footer className="w-full py-6 bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-300 text-center border-t border-gray-200 dark:border-gray-700 transition-colors duration-200">
-      <p className="text-sm md:text-base">&copy; 2024 XRPL Nodes SaaS. All rights reserved.</p>
+    <footer className="w-full py-6 bg-muted/50 border-t border-border text-muted-foreground">
+      <div className="container mx-auto px-4">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="text-sm">
+            &copy; 2024 XRPL Nodes SaaS. All rights reserved.
+          </div>
+          <div className="flex gap-4 text-sm">
+            <a href="#" className="hover:text-primary transition-colors duration-200">Privacy Policy</a>
+            <a href="#" className="hover:text-primary transition-colors duration-200">Terms of Service</a>
+          </div>
+        </div>
+      </div>
     </footer>
   );
 }
