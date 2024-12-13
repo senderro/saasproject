@@ -68,7 +68,7 @@ export default function Home() {
         </section>
 
         {/* Features Section */}
-        <section id="features" className="relative py-200 md:py-16">
+        <section id="features" className="relative py-16 md:py-16">
           <div className="container mx-auto px-4 md:px-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
               {features.map((feature, index) => (
@@ -106,6 +106,42 @@ export default function Home() {
                 </Card>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* Pricing Section */}
+        <section id="pricing" className="relative py-16 md:py-20 bg-gray-50 dark:bg-background">
+          <div className="container mx-auto px-4 md:px-6 text-center">
+            <h2 className="text-3xl md:text-4xl font-extrabold mb-6">Pricing</h2>
+            <p className="text-base md:text-lg text-muted-foreground max-w-3xl mx-auto mb-8">
+              We offer customized pricing solutions tailored for businesses of all sizes. Contact us for a tailored plan that fits your needs.
+            </p>
+            <Button
+              asChild
+              size="lg"
+              className="shadow-lg transition-all duration-200 hover:shadow-xl hover:scale-105"
+            >
+              <Link href="#contact">Contact Us for Pricing</Link>
+            </Button>
+          </div>
+        </section>
+
+        {/* Contact Section */}
+        <section id="contact" className="relative py-16 md:py-20 bg-gray-50 dark:bg-background">
+          <div className="container mx-auto px-4 md:px-6 text-center">
+            <h2 className="text-3xl md:text-4xl font-extrabold mb-6">Contact Us</h2>
+            <p className="text-base md:text-lg text-muted-foreground max-w-3xl mx-auto mb-8">
+              Reach out to us for inquiries, support or partnerships. Visit us at
+              <a
+                href="https://new.polichain.xyz/en/"
+                className="text-primary underline ml-2"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                our contact page
+              </a>
+              .
+            </p>
           </div>
         </section>
       </main>
