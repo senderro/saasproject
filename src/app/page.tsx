@@ -53,7 +53,7 @@ export default function Home() {
                   size="lg"
                   className="w-full md:w-auto shadow-lg transition-all duration-200 hover:shadow-xl hover:scale-105"
                 >
-                  <Link href="#get-started">Get Started</Link>
+                  <Link href="/node">Get Started</Link>
                 </Button>
                 <Button
                   asChild
@@ -106,81 +106,6 @@ export default function Home() {
                   </CardContent>
                 </Card>
               ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Pricing Section */}
-        <section id="pricing" className="relative py-16 md:py-20 bg-gray-50 dark:bg-background">
-          <div className="container mx-auto px-4 md:px-6">
-            <h2 className="text-3xl md:text-4xl font-extrabold mb-6 text-center">Pricing</h2>
-            <p className="text-base md:text-lg text-muted-foreground max-w-3xl mx-auto mb-8 text-center">
-            From free to enterprise, we have plans that grow with you.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-              <Card className="border border-primary/10 bg-white dark:bg-background p-6 rounded-lg">
-                <CardHeader className="text-center">
-                  <h3 className="text-xl font-bold">Free</h3>
-                  <p className="text-primary text-2xl font-extrabold mt-2">$0</p>
-                  <p className="text-muted-foreground mt-2">Perfect for small projects and testing.</p>
-                </CardHeader>
-                <CardContent className="mt-4">
-                  <ul className="space-y-2 text-muted-foreground">
-                    <li>1 Node</li>
-                    <li>2 GB RAM</li>
-                    <li>Community Support</li>
-                  </ul>
-                  <Button
-                    asChild
-                    size="lg"
-                    className="mt-6 shadow-lg transition-all duration-200 hover:shadow-xl hover:scale-105 w-full"
-                  >
-                    <Link href="/node">Start Now</Link>
-                  </Button>
-                </CardContent>
-              </Card>
-              <Card className="border border-primary/10 bg-white dark:bg-background p-6 rounded-lg">
-                <CardHeader className="text-center">
-                  <h3 className="text-xl font-bold">Personal</h3>
-                  <p className="text-primary text-2xl font-extrabold mt-2">$19</p>
-                  <p className="text-muted-foreground mt-2">Great for individual developers.</p>
-                </CardHeader>
-                <CardContent className="mt-4">
-                  <ul className="space-y-2 text-muted-foreground">
-                    <li>2 Nodes</li>
-                    <li>4 GB RAM</li>
-                    <li>Email Support</li>
-                  </ul>
-                  <Button
-                    asChild
-                    size="lg"
-                    className="mt-6 shadow-lg transition-all duration-200 hover:shadow-xl hover:scale-105 w-full"
-                  >
-                    <Link href="#contact">Contact Us for Pricing</Link>
-                  </Button>
-                </CardContent>
-              </Card>
-              <Card className="border border-primary/10 bg-white dark:bg-background p-6 rounded-lg">
-                <CardHeader className="text-center">
-                  <h3 className="text-xl font-bold">Business</h3>
-                  <p className="text-primary text-2xl font-extrabold mt-2">$69</p>
-                  <p className="text-muted-foreground mt-2">Ideal for teams and enterprises.</p>
-                </CardHeader>
-                <CardContent className="mt-4">
-                  <ul className="space-y-2 text-muted-foreground">
-                    <li>5 Nodes</li>
-                    <li>16 GB RAM</li>
-                    <li>Priority Support</li>
-                  </ul>
-                  <Button
-                    asChild
-                    size="lg"
-                    className="mt-6 shadow-lg transition-all duration-200 hover:shadow-xl hover:scale-105 w-full"
-                  >
-                    <Link href="#contact">Contact Us for Pricing</Link>
-                  </Button>
-                </CardContent>
-              </Card>
             </div>
           </div>
         </section>

@@ -33,25 +33,6 @@ export default function Navbar() {
 
         {/* Navigation Links */}
         <div className="flex items-center flex-wrap justify-center space-x-4 md:space-x-6">
-          <Link 
-            href="#features" 
-            className="text-muted-foreground hover:text-foreground transition-colors duration-200"
-          >
-            Features
-          </Link>
-          <Link 
-            href="#pricing" 
-            className="text-muted-foreground hover:text-foreground transition-colors duration-200"
-          >
-            Pricing
-          </Link>
-          <Link 
-            href="#contact" 
-            className="text-muted-foreground hover:text-foreground transition-colors duration-200"
-          >
-            Contact
-          </Link>
-
           {/* Theme Toggle */}
           <ThemeToggle />
 
@@ -68,13 +49,13 @@ export default function Navbar() {
                 </Link>
               </SignedOut>
               <SignedIn>
-                <UserButton />
                 <Link 
                   href="/node" 
                   className="text-muted-foreground hover:text-foreground transition-colors duration-200"
                 >
                   Nodes
                 </Link>
+                <UserButton />
               </SignedIn>
             </>
           )}
