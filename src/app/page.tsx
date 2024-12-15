@@ -109,25 +109,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-
-        {/* Contact Section */}
-        <section id="contact" className="relative py-16 md:py-20 bg-gray-50 dark:bg-background">
-          <div className="container mx-auto px-4 md:px-6 text-center">
-            <h2 className="text-3xl md:text-4xl font-extrabold mb-6">Contact Us</h2>
-            <p className="text-base md:text-lg text-muted-foreground max-w-3xl mx-auto mb-8">
-              Reach out to us for inquiries, support, or partnerships. Visit us at
-              <a
-                href="https://new.polichain.xyz/en/"
-                className="text-primary underline ml-2"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                our contact page
-              </a>
-              .
-            </p>
-          </div>
-        </section>
       </main>
     </div>
   );
