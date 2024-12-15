@@ -207,7 +207,8 @@ const DeploymentDetails = ({ deployment }: DeploymentDetailsProps) => {
             className="w-full md:w-auto flex items-center gap-2"
             asChild
           >
-            <a href={swaggerUrl} target="_blank" rel="noopener noreferrer">
+            <a href={swaggerUrl.startsWith("http") ? swaggerUrl : `https://${swaggerUrl}`} 
+            target="_blank" rel="noopener noreferrer">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
