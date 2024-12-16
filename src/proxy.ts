@@ -6,7 +6,19 @@ import { dockerFactory } from "@/repositories/docker-factory";
 import { currentUser } from "@clerk/nextjs/server";
 
 function normalizeEmail(email: string): string {
-  return email.replace(/[@.]/g, "_").toLowerCase();
+  return email
+    // Convert to lowercase first
+    .toLowerCase()
+    // Replace special characters with hyphens
+    .replace(/[^a-z0-9.]+/g, '-')
+    // Replace consecutive hyphens with single hyphen
+    .replace(/-+/g, '-')
+    // Replace periods and underscores with hyphens for consistency
+    .replace(/[._]/g, '-')
+    // Remove leading/trailing hyphens
+    .replace(/^-+|-+$/g, '')
+    // Ensure the string isn't empty
+    || 'empty';
 }
 
 export async function createDeployment() {
