@@ -15,13 +15,13 @@ export class DockerFactory {
 
   async createDeployment(data: DockerDeployRequest): Promise<string> {
     const validatedData = DeploymentRequestSchema.parse(data);
-    console.log(this.baseUrl);
+    const apiUrl = `${this.baseUrl.replace(/\/+$/, "")}/deployments/`;
+    console.log(apiUrl);
 
     console.log('Request payload:', validatedData);
-    console.log('API URL:', this.baseUrl);
+    console.log('API URL:', apiUrl);
 
-    
-    const response = await fetch(this.baseUrl, {
+    const response = await fetch(apiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
