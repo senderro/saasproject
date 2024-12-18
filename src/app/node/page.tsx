@@ -9,7 +9,8 @@ import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 import { Eye, EyeOff, Copy, CheckCircle2 } from "lucide-react";
 import { DeployCard } from "../_components/DeployCard";
-import { formatDistanceToNow } from 'date-fns';
+import { formatDistanceToNow } from "date-fns";
+import { Suspense } from "react";
 
 export const maxDuration = 60;
 
@@ -40,11 +41,7 @@ function fixUrl(url: string): string {
   return url;
 }
 
-const CopyTextDisplay = ({
-  label,
-  value,
-  className,
-}: CopyTextDisplayProps) => {
+const CopyTextDisplay = ({ label, value, className }: CopyTextDisplayProps) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -175,7 +172,6 @@ const DeploymentCard = ({
   </Card>
 );
 
-
 const DeploymentDetails = ({ deployment }: DeploymentDetailsProps) => {
   console.log(deployment);
   const baseUrl = deployment.rpc_endpoint?.replace("//", "").split("/")[0];
@@ -216,9 +212,7 @@ const DeploymentDetails = ({ deployment }: DeploymentDetailsProps) => {
             className="w-full md:w-auto flex items-center gap-2"
             asChild
           >
-            <a href={fixUrl(swaggerUrl)}  
-            target={"_blank"}
-            rel={"noreferrer"}>
+            <a href={fixUrl(swaggerUrl)} target={"_blank"} rel={"noreferrer"}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -242,53 +236,84 @@ const DeploymentDetails = ({ deployment }: DeploymentDetailsProps) => {
   );
 };
 
+function DeploymentsLoading() {
+  return <div className="animate-pulse space-y-4">
+    <div className="h-24 bg-primary/5 rounded-lg"></div>
+    <div className="h-24 bg-primary/5 rounded-lg"></div>
+  </div>;
+}
 
-// NodePage.tsx
+function DeploymentsList({ 
+  deployments,
+}: { 
+  deployments: deployments[] 
+}) {
+  const [selectedDeployment, setSelectedDeployment] = useState<deployments | null>(null);
+
+  return (
+    <>
+      <Card className="border-border">
+        <CardHeader>
+          <CardTitle>Your Deployments</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {deployments.length === 0 ? (
+            <p className="text-muted-foreground text-center">
+              No deployments available. Deploy your first node now!
+            </p>
+          ) : (
+            <div className="space-y-4">
+              {deployments.map((deployment) => (
+                <DeploymentCard
+                  key={deployment.id}
+                  deployment={deployment}
+                  isSelected={selectedDeployment?.id === deployment.id}
+                  onSelect={setSelectedDeployment}
+                />
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {selectedDeployment && (
+        <DeploymentDetails deployment={selectedDeployment} />
+      )}
+    </>
+  );
+}
+
 export default function NodePage() {
-  const [deployments, setDeployments] = useState<deployments[] | []>([]);
-  const [selectedDeployment, setSelectedDeployment] =
-    useState<deployments | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [deploying, setDeploying] = useState(false);
-  const [isClient, setIsClient] = useState(false);
+  const [deployments, setDeployments] = useState<deployments[]>([]);
 
-  useEffect(() => {
-    setIsClient(true);
-    fetchDeployments();
-  }, []);
-
-  async function fetchDeployments() {
+  const fetchDeployments = async () => {
     try {
       const fetchedDeployments = await getClientDeployments();
       const formattedDeployments = fetchedDeployments.map((deployment) => ({
         ...deployment,
-        created_at: deployment.created_at
-          ? new Date(deployment.created_at)
-          : null,
+        created_at: deployment.created_at ? new Date(deployment.created_at) : null,
       }));
       setDeployments(formattedDeployments);
-      setError(null);
     } catch (err) {
       console.error("Error fetching deployments:", err);
-      setError("Failed to load deployments.");
-    } finally {
-      setLoading(false);
+      throw new Error("Failed to load deployments.");
     }
-  }
+  };
+
+  useEffect(() => {
+    fetchDeployments();
+  }, []);
 
   async function handleDeployNewNode() {
-    if (deploying) return; // Prevent double-clicks
+    if (deploying) return;
     
     try {
       setDeploying(true);
-      setError(null);
-      
-      console.log('Starting deployment in NodePage...'); // Debug log
+      console.log('Starting deployment in NodePage...');
       await createDeployment();
-      console.log('Deployment created successfully'); // Debug log
-      
-      await fetchDeployments(); // Fetch updated deployments
+      console.log('Deployment created successfully');
+      await fetchDeployments(); // Refresh the list after successful deployment
       return Promise.resolve();
     } catch (err) {
       console.error("Error creating deployment:", err);
@@ -298,50 +323,19 @@ export default function NodePage() {
     }
   }
 
-  if (!isClient) return null;
-  if (loading) return <div className="text-foreground">Loading deployments...</div>;
-  if (error) return <div className="text-error">Error: {error}</div>;
-
   return (
     <div className="min-h-screen bg-background text-foreground">
       <main className="w-full max-w-6xl mx-auto py-12 px-4">
         <div className="flex justify-center my-10">
           <DeployCard
-            onDeployComplete={() => {
-              console.log('Deployment complete, refreshing...'); // Debug log
-              fetchDeployments();
-            }}
+            onDeployComplete={fetchDeployments}
             onDeployStart={handleDeployNewNode}
           />
         </div>
 
-        <Card className="border-border">
-          <CardHeader>
-            <CardTitle>Your Deployments</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {deployments.length === 0 ? (
-              <p className="text-muted-foreground text-center">
-                No deployments available. Deploy your first node now!
-              </p>
-            ) : (
-              <div className="space-y-4">
-                {deployments.map((deployment) => (
-                  <DeploymentCard
-                    key={deployment.id}
-                    deployment={deployment}
-                    isSelected={selectedDeployment?.id === deployment.id}
-                    onSelect={setSelectedDeployment}
-                  />
-                ))}
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        {selectedDeployment && (
-          <DeploymentDetails deployment={selectedDeployment} />
-        )}
+        <Suspense fallback={<DeploymentsLoading />}>
+          <DeploymentsList deployments={deployments} />
+        </Suspense>
       </main>
     </div>
   );

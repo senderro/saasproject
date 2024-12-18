@@ -26,7 +26,7 @@ export const DeployCard = ({ onDeployComplete, onDeployStart }: DeployCardProps)
       setProgress(0);
       
       const incrementInterval = 100;
-      const totalIncrements = 180 * (1000 / incrementInterval);
+      const totalIncrements = 60 * (1000 / incrementInterval);
       const incrementAmount = 100 / totalIncrements;
 
       progressInterval = setInterval(() => {
