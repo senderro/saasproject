@@ -11,6 +11,8 @@ import { Eye, EyeOff, Copy, CheckCircle2 } from "lucide-react";
 import { DeployCard } from "../_components/DeployCard";
 import { formatDistanceToNow } from 'date-fns';
 
+export const maxDuration = 60;
+
 interface DeploymentCardProps {
   deployment: deployments;
   isSelected: boolean;
