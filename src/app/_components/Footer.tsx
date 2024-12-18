@@ -4,7 +4,7 @@ export default function Footer() {
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="text-sm">
-            &copy; 2024 XRPlataform. All rights reserved.
+            &copy; 2024 XRPlatform. All rights reserved.
           </div>
           <div className="flex gap-4 text-sm">
             <a href="#" className="hover:text-primary transition-colors duration-200">Privacy Policy</a>

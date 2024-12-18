@@ -29,8 +29,8 @@ export default function Navbar() {
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center py-4 md:py-6 px-4 md:px-6 space-y-4 md:space-y-0">
         <h1 className="text-xl md:text-2xl font-bold">
           <Link href="/" className="flex items-center gap-2">
-            <img src="/favicon.ico" alt="XRPlataform" className="h-8 w-auto" />
-            <span className="text-xl font-bold">XRPlataform</span>
+            <img src="/favicon.ico" alt="XRPlatform" className="h-8 w-auto" />
+            <span className="text-xl font-bold">XRPlatform</span>
           </Link>
         </h1>
 
