@@ -37,7 +37,7 @@ export default function Home() {
       <main className="relative">
         {/* Hero Section */}
         <section className="relative w-full text-center min-h-[70vh] py-8 md:py-16 px-4">
-          <div className="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_50%,_var(--tw-gradient-stops))] from-primary/20 via-background/50 to-background opacity-100 mix-blend-normal flex flex-col justify-center">
+          <div className="absolute inset-0 bg-[radial-gradient(55%_55%_at_50%_50%,_var(--tw-gradient-stops))] from-primary/15 via-primary/5 to-background opacity-100 mix-blend-normal flex flex-col justify-center dark:bg-[radial-gradient(60%_60%_at_50%_50%,_var(--tw-gradient-stops))] dark:from-primary/10 dark:via-background/90">
             <div className="relative z-10 max-w-6xl mx-auto">
               <h2 className="text-3xl md:text-5xl font-extrabold mb-4 md:mb-6">
                 Deploy <span className="text-primary">XRP Nodes</span> Easily
