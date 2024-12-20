@@ -3,7 +3,7 @@
 ## Getting Started
 First, clone the repository and install the dependencies:
 
-```
+```bash
 git clone https://github.com/senderro/saasproject.git
 cd saasproject
 npm install
@@ -14,6 +14,7 @@ npm install
 
 Create a `.env` file in the root directory with the following variables:
 
+```bash
 NODE_ENV =
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
 CLERK_SECRET_KEY=
@@ -22,7 +23,7 @@ NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
 DATABASE_URL=
 API_KEY=
 API_URL=
-
+```
 Ensure these variables are configured correctly before running the application.
 
 ## Run the development server:
