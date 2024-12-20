@@ -31,19 +31,27 @@ export async function createDeployment() {
     }
 
     const normalizedEmail = normalizeEmail(email);
-    console.log(normalizedEmail);
+    
+    // Check existing deployments count
+    const deployments = await deployDB.findByClientId(normalizedEmail, {
+      page: 1,
+      perPage: 100
+    });
+    
+    if (deployments.data.length >= 3) {
+      throw new Error("Maximum limit of 3 nodes reached.");
+    }
     
     // Cria deployment via Docker Factory
     const deploymentId = await dockerFactory.createDeployment({
       client_id: normalizedEmail
     });
 
-    // Retorna o ID para manter compatibilidade com o código existente
     return deploymentId;
 
   } catch (error) {
     console.error("Erro ao criar deployment:", error);
-    throw new Error("Erro ao criar deployment.");
+    throw error;
   }
 }
 

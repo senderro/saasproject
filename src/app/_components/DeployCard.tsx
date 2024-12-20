@@ -26,7 +26,7 @@ export const DeployCard = ({ onDeployComplete, onDeployStart }: DeployCardProps)
       setProgress(0);
       
       const incrementInterval = 100;
-      const totalIncrements = 180 * (1000 / incrementInterval);
+      const totalIncrements = 60 * (1000 / incrementInterval);
       const incrementAmount = 100 / totalIncrements;
 
       progressInterval = setInterval(() => {
@@ -61,7 +61,7 @@ export const DeployCard = ({ onDeployComplete, onDeployStart }: DeployCardProps)
       // Show success state for 2 seconds before completing
       setTimeout(() => {
         handleDeploymentComplete();
-      }, 2000);
+      }, 5000);
     } catch (err) {
       console.error('Deployment error:', err);
       
@@ -138,7 +138,7 @@ export const DeployCard = ({ onDeployComplete, onDeployStart }: DeployCardProps)
         )}
         
         {state === 'success' && (
-          <Alert>
+          <Alert variant='success' className="mb-4">
             <CheckCircle className="h-4 w-4" />
             <AlertTitle>Success</AlertTitle>
             <AlertDescription>

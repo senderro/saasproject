@@ -8,8 +8,8 @@ import Footer from "./_components/Footer";
 
 
 export const metadata = {
-  title: "XRPlatform - Deploy XRP Nodes in One Click",
-  description: "Enterprise-grade XRP nodes deployment platform. Scale with confidence.",
+  title: "XRPlatform",
+  description: "Deploy XRP nodes in 2 minutes",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
